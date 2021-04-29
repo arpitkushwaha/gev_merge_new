@@ -7,32 +7,24 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LogInController {
   // Function for login.
   Future login(User user) async {
-    print("${user.userPhone}");
     print(user.password);
+    var queryparams = {
+      'phone': user.userPhone,
+      'password': user.password,
+    };
     WebserviceManager wsm = new WebserviceManager();
-    Map<dynamic, dynamic> response = await wsm.makeGetRequest(
-        'fetch-user-info/?phone=${user.userPhone}&password=${user.password}');
+    Map<dynamic, dynamic> response =
+    await wsm.makePostRequestMap('fetch-user-info', queryparams);
     print("Response" + response.toString());
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     if (response["user_info"] != null) {
       user = User.fromJson(response["user_info"][0]);
       prefs.setString('user_info', jsonEncode(user));
-      prefs.setString('id', response["user_info"][0]["id"].toString());
-      prefs.setString('username', user.userName.toString());
+      prefs.setString('isLoggedIn', "true");
       prefs.setString('phoneNo', user.userPhone.toString());
-      prefs.setString('isLoggedIn', "true");
-      // print("You are logged in. DETAILS : phoneNo : ${user.userPhone}");
-      print(jsonDecode(prefs.getString('user_info')));
-    }
-
-    print(prefs.getString('phoneNo'));
-    if (prefs.getString('phoneNo') == user.userPhone.toString()) {
-      prefs.setString('isLoggedIn', "true");
       print("You are logged in. DETAILS : phoneNo : ${user.userPhone}");
     }
-    print(prefs.getString('phoneNo'));
-    print(prefs.getString('isLoggedIn'));
   }
 
   // Function for logout.

@@ -10,6 +10,7 @@ import 'package:gev_app/utilities/preferences.dart';
 import 'package:gev_app/utilities/webservice_manager.dart';
 import 'package:gev_app/views/feedback_screen.dart';
 
+
 class CheckInController {
   BuildContext context;
   Preferences preferences = Preferences();
@@ -24,11 +25,11 @@ class CheckInController {
     print(mobileUserDetails.checkInDate);
     print(mobileUserDetails.checkOutDate);
     User user =
-        User.fromJson(jsonDecode(preferences.getPreferences('user_info')));
+    User.fromJson(jsonDecode(preferences.getPreferences('user_info')));
     print('name of user' + user.userName);
 
     var queryparams = {
-      'user_id': preferences.getPreferences("id"),
+      'user_id': user.id,
       'mobile': phone,
       'check_in_date': mobileUserDetails.checkInDate,
       'check_out_date': mobileUserDetails.checkOutDate
@@ -37,22 +38,14 @@ class CheckInController {
     MobileUserDetails checkinDetail; //= fetchLocationList(queryparams);
     WebserviceManager wsm = new WebserviceManager();
     Map<dynamic, dynamic> response =
-        await wsm.makePostRequestMap('fetch-check-in-information', queryparams);
+    await wsm.makePostRequestMap('fetch-check-in-information', queryparams);
     checkinDetail = MobileUserDetails.fromJson(response["check_in_info"]);
-    print('checkinDetail controller: ' + checkinDetail.visitType.toString());
-    print('check fetch : ' + checkinDetail.checkInCode.toString());
-    preferences.setPreferences('mobile_user_id', checkinDetail.id.toString());
-    preferences.setPreferences(
-        'check_in_code', checkinDetail.checkInCode.toString());
-    preferences.setPreferences(
-        'check_in_date', checkinDetail.checkInDate.toString());
-    preferences.setPreferences(
-        'check_out_date', checkinDetail.checkOutDate.toString());
-    preferences.setPreferences(
-        'accommodation_type', checkinDetail.visitType.toString());
-    UserType().setcheckInPref();
+    checkinDetail.userId = user.id;
 
-    feedbackNotification();
+    preferences.setPreferences(
+        'mobile_user_details', jsonEncode(checkinDetail));
+    preferences.setPreferences('mobile_user_id', checkinDetail.id.toString());
+    UserType().setcheckInPref();
 
     // String userJson = jsonEncode(user.toJson());
     // String mobileUserDetailsJson = jsonEncode(mobileUserDetails.toJson());
@@ -76,13 +69,14 @@ class CheckInController {
   // To get mobile user details model from preferences.
   MobileUserDetails getMobileUserDetailsModelFromPreferences() {
     String mobileUserDetailsJson =
-        preferences.getPreferences(Preferences.mobileUserDetailsKey);
+    preferences.getPreferences(Preferences.mobileUserDetailsKey);
     Map mobileUserDetailsMap = jsonDecode(mobileUserDetailsJson);
     var mobileUserDetailsModel =
-        MobileUserDetails.fromJson(mobileUserDetailsMap);
+    MobileUserDetails.fromJson(mobileUserDetailsMap);
 
     return mobileUserDetailsModel;
   }
+
 
   //Controller for feedback notification.
 

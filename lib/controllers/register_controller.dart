@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:gev_app/models/user.dart';
 import 'package:gev_app/utilities/webservice_manager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,19 +19,13 @@ class RegisterController {
       'password': user.password,
       'dob': user.userDob
     };
-    print(queryparams);
+
     Map<dynamic, dynamic> response =
-        await wsm.makePostRequestMap('add-user-info', queryparams);
-    print("Response" + response.toString());
+    await wsm.makePostRequestMap('add-user-info', queryparams);
+
     if (response['success'] != "") {
       prefs.setString('isValidWalkin', 'true');
     }
-
-    prefs.setString('name', user.userName);
-    prefs.setString('name', user.userName);
-    prefs.setString('phoneNo', user.userPhone.toString());
-    prefs.setString('email', user.userEmail);
-
     print(
         "You are registered. DETAILS : username : ${user.userName}, phoneNo : ${user.userPhone}, email : ${user.userEmail}");
   }

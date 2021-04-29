@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:gev_app/models/mobile_user_details.dart';
+import 'package:gev_app/models/user.dart';
 import 'package:gev_app/utilities/commons.dart';
 import 'package:gev_app/utilities/preferences.dart';
 import 'package:gev_app/utilities/size_config.dart';
@@ -33,17 +37,18 @@ class _ViewCheckInScreenState extends State<ViewCheckInScreen> {
   @override
   void initState() {
     super.initState();
-    print(preferences.getPreferences('check_in_code'));
-    name = TextEditingController(text: preferences.getPreferences('username'));
-    checkInDateCon = TextEditingController(
-        text: preferences.getPreferences('check_in_date'));
-    checkOutDateCon = TextEditingController(
-        text: preferences.getPreferences('check_out_date'));
-    phone = TextEditingController(text: preferences.getPreferences('phoneNo'));
-    accomodationType = TextEditingController(
-        text: preferences.getPreferences('accommodation_type'));
-    checkinCode = TextEditingController(
-        text: preferences.getPreferences('check_in_code'));
+    User user =
+    User.fromJson(jsonDecode(preferences.getPreferences('user_info')));
+    MobileUserDetails mobileUserDetails = MobileUserDetails.fromJson(
+        jsonDecode(preferences.getPreferences('mobile_user_details')));
+    name = TextEditingController(text: user.userName);
+    checkInDateCon = TextEditingController(text: mobileUserDetails.checkInDate);
+    checkOutDateCon =
+        TextEditingController(text: mobileUserDetails.checkOutDate);
+    phone = TextEditingController(text: user.userPhone.toString());
+    accomodationType =
+        TextEditingController(text: mobileUserDetails.accommodationType);
+    checkinCode = TextEditingController(text: mobileUserDetails.checkInCode);
   }
 
   @override
@@ -53,7 +58,7 @@ class _ViewCheckInScreenState extends State<ViewCheckInScreen> {
       appBar: Common.appBar('View Check-In'),
       bottomNavigationBar: BottomNavbar(),
       floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterDocked,
+      FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingHomeButton(),
       body: SingleChildScrollView(
         child: Container(
@@ -82,7 +87,7 @@ class _ViewCheckInScreenState extends State<ViewCheckInScreen> {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                    const EdgeInsets.only(bottom: 20, left: 10, right: 10),
                     child: TextFormField(
                       controller: phone,
                       readOnly: true,
@@ -95,7 +100,7 @@ class _ViewCheckInScreenState extends State<ViewCheckInScreen> {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                    const EdgeInsets.only(bottom: 20, left: 10, right: 10),
                     child: TextFormField(
                       controller: checkInDateCon,
                       readOnly: true,
@@ -108,7 +113,7 @@ class _ViewCheckInScreenState extends State<ViewCheckInScreen> {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                    const EdgeInsets.only(bottom: 20, left: 10, right: 10),
                     child: TextFormField(
                       controller: checkOutDateCon,
                       readOnly: true,
@@ -121,7 +126,7 @@ class _ViewCheckInScreenState extends State<ViewCheckInScreen> {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                    const EdgeInsets.only(bottom: 20, left: 10, right: 10),
                     child: TextFormField(
                       controller: accomodationType,
                       readOnly: true,
@@ -134,14 +139,14 @@ class _ViewCheckInScreenState extends State<ViewCheckInScreen> {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                    const EdgeInsets.only(bottom: 20, left: 10, right: 10),
                     child: TextFormField(
                       controller: checkinCode,
                       enabled: false,
                       //readOnly: true,
                       keyboardType: TextInputType.text,
                       decoration:
-                          Common.buildInputDecoration(Icons.lock, "Code"),
+                      Common.buildInputDecoration(Icons.lock, "Code"),
                     ),
                   ),
                 ],

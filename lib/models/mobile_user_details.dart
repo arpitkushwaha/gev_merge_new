@@ -2,6 +2,7 @@ class MobileUserDetails {
   int id;
   int userId;
   String visitType;
+  String accommodationType;
   String checkInDate;
   String checkOutDate;
   String checkInCode;
@@ -17,25 +18,26 @@ class MobileUserDetails {
 
   MobileUserDetails(
       [this.id,
-      this.userId,
-      this.visitType,
-      this.checkInDate,
-      this.checkOutDate,
-      this.checkInCode,
-      this.additionalMember,
-      this.deviceId,
-      this.deviceName,
-      this.createDate,
-      this.createdBy,
-      this.lastModifiedDate,
-      this.lastModifiedBy,
-      this.slotTimeStart,
-      this.slotTimeEnd]);
+        this.userId,
+        this.visitType,
+        this.checkInDate,
+        this.checkOutDate,
+        this.checkInCode,
+        this.additionalMember,
+        this.deviceId,
+        this.deviceName,
+        this.createDate,
+        this.createdBy,
+        this.lastModifiedDate,
+        this.lastModifiedBy,
+        this.slotTimeStart,
+        this.slotTimeEnd]);
 
   MobileUserDetails.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
+      : id = json['mobile_userid'],
         userId = json['user_id'],
-        visitType = json['accomodation_type'],
+        visitType = json['visit_type'],
+        accommodationType = json['accomodation_type'],
         checkInDate = json['check_in_date'],
         checkOutDate = json['check_out_date'],
         checkInCode = json['check_in_code'],
@@ -50,20 +52,21 @@ class MobileUserDetails {
         slotTimeEnd = json['Slot_time_end'];
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'user_id': userId,
-        'visit_type': visitType,
-        'check_in_date': checkInDate,
-        'check_out_date': checkOutDate,
-        'check_in_code': checkInCode,
-        'additional_member': additionalMember,
-        'device_id': deviceId,
-        'device_name': deviceName,
-        'create_date': createDate,
-        'created_by': createdBy,
-        'last_modified_date': lastModifiedDate,
-        'last_modified_by': lastModifiedBy,
-        'Slot_time_start': slotTimeStart,
-        'Slot_time_end': slotTimeEnd,
-      };
+    'mobile_userid': id,
+    'user_id': userId,
+    'visit_type': visitType,
+    'accomodation_type': accommodationType,
+    'check_in_date': checkInDate,
+    'check_out_date': checkOutDate,
+    'check_in_code': checkInCode,
+    'additional_member': additionalMember,
+    'device_id': deviceId,
+    'device_name': deviceName,
+    'create_date': createDate,
+    'created_by': createdBy,
+    'last_modified_date': lastModifiedDate,
+    'last_modified_by': lastModifiedBy,
+    'Slot_time_start': slotTimeStart,
+    'Slot_time_end': slotTimeEnd,
+  };
 }

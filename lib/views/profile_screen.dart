@@ -35,7 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   TextEditingController setInitialValues(String value) {
     TextEditingController initValController =
-        TextEditingController(text: value);
+    TextEditingController(text: value);
     return initValController;
   }
 
@@ -55,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: Common.appBar('Profile'),
       bottomNavigationBar: BottomNavbar(),
       floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniCenterDocked,
+      FloatingActionButtonLocation.miniCenterDocked,
       floatingActionButton: FloatingHomeButton(),
       body: SingleChildScrollView(
         child: Container(
@@ -73,10 +73,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       bottom: 20, left: 10, right: 10, top: 10),
                   child: TextFormField(
                     initialValue: userdetails.userName,
-                    // controller: setInitialValues(userdetails.userName),
                     keyboardType: TextInputType.text,
                     decoration:
-                        Common.buildInputDecoration(Icons.person_pin, "Name"),
+                    Common.buildInputDecoration(Icons.person_pin, "Name"),
                     onSaved: (value) {
                       userdetails.userName = value;
                     },
@@ -96,10 +95,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                  const EdgeInsets.only(bottom: 20, left: 10, right: 10),
                   child: TextFormField(
                     initialValue: userdetails.userEmail,
-                    // controller: setInitialValues(userdetails.userEmail),
                     keyboardType: TextInputType.emailAddress,
                     decoration: Common.buildInputDecoration(
                         Icons.email_outlined, "Email"),
@@ -121,11 +119,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                  const EdgeInsets.only(bottom: 20, left: 10, right: 10),
                   child: TextFormField(
                     initialValue: userdetails.userPhone.toString(),
-                    // controller:
-                    //     setInitialValues(userdetails.userPhone.toString()),
                     keyboardType: TextInputType.number,
                     onSaved: (value) {
                       userdetails.userPhone = int.parse(value);
@@ -139,10 +135,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                  const EdgeInsets.only(bottom: 20, left: 10, right: 10),
                   child: TextFormField(
                     initialValue: userdetails.userAddress,
-                    // controller: setInitialValues(userdetails.userAddress),
                     keyboardType: TextInputType.text,
                     decoration: Common.buildInputDecoration(
                         Icons.location_on, "Address"),
@@ -162,10 +157,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                  const EdgeInsets.only(bottom: 20, left: 10, right: 10),
                   child: TextFormField(
                     initialValue: userdetails.userDob,
-                    // controller: setInitialValues(userdetails.userDob),
                     onTap: () {
                       FocusScope.of(context).requestFocus(new FocusNode());
                       pickupDateOfBirth();
@@ -225,7 +219,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               const Radius.circular(8.0),
                             ),
                             side:
-                                BorderSide(color: Color(Constant.buttonColor))),
+                            BorderSide(color: Color(Constant.buttonColor))),
                       ),
                     ),
                   ),
@@ -254,7 +248,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               const Radius.circular(8.0),
                             ),
                             side:
-                                BorderSide(color: Color(Constant.buttonColor))),
+                            BorderSide(color: Color(Constant.buttonColor))),
                       ),
                     ),
                   ),
@@ -287,7 +281,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         setState(() {
           dateOfBirth = dateOfBirthLoc;
           dateOfBirthCon.text =
-              "${dateOfBirth.day}/${dateOfBirth.month}/${dateOfBirth.year}";
+          "${dateOfBirth.day}/${dateOfBirth.month}/${dateOfBirth.year}";
         });
       }
     }
