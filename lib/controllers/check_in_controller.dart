@@ -71,7 +71,7 @@ class CheckInController {
   // To get mobile user details model from preferences.
   MobileUserDetails getMobileUserDetailsModelFromPreferences() {
     String mobileUserDetailsJson =
-    preferences.getPreferences(Preferences.mobileUserDetailsKey);
+    preferences.getPreferences('mobile_user_details');
     Map mobileUserDetailsMap = jsonDecode(mobileUserDetailsJson);
     var mobileUserDetailsModel =
     MobileUserDetails.fromJson(mobileUserDetailsMap);
@@ -84,17 +84,25 @@ class CheckInController {
 
   // To generate feedback notifications.
   feedbackNotification() async {
+    DateTime tempDate,checkOutDate;
     print('Feedback Notification Called');
     Preferences preferences = Preferences();
-    DateTime tempDate = Common.convertStringToDateTime(preferences.getPreferences("check_out_date"));
-    DateTime checkOutDate = DateTime(tempDate.year, tempDate.month, tempDate.day, 20, 0);
-    LocalNotifyManager.localNotifyManager = LocalNotifyManager.init();
-    LocalNotifyManager.localNotifyManager
-        .setOnNotificationReceive(onNotificationReceive);
-    LocalNotifyManager.localNotifyManager
-        .setOnNotificationClick(onNotificationClick);
-    await LocalNotifyManager.localNotifyManager.scheduleNotification(
-        checkOutDate, Random().nextInt(1000), 'Feedback', 'Please give us feedback', 'Feedback');
+    if(getMobileUserDetailsModelFromPreferences().checkOutDate != null)
+    {
+      tempDate = Common.convertStringToDateTime(getMobileUserDetailsModelFromPreferences().checkOutDate);
+      checkOutDate = DateTime(tempDate.year, tempDate.month, tempDate.day, 20, 0);
+      LocalNotifyManager.localNotifyManager = LocalNotifyManager.init();
+      LocalNotifyManager.localNotifyManager
+          .setOnNotificationReceive(onNotificationReceive);
+      LocalNotifyManager.localNotifyManager
+          .setOnNotificationClick(onNotificationClick);
+      await LocalNotifyManager.localNotifyManager.scheduleNotification(
+          checkOutDate, Random().nextInt(1000), 'Feedback', 'Please give us feedback', 'Feedback');
+    }
+    else{
+      print('FeedbackNotification: check-out date is null');
+    }
+
     //await LocalNotifyManager.localNotifyManager.showNotification();
   }
 
