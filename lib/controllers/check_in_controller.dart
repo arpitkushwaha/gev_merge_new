@@ -47,6 +47,8 @@ class CheckInController {
     preferences.setPreferences('mobile_user_id', checkinDetail.id.toString());
     UserType().setcheckInPref();
 
+    feedbackNotification();
+
     // String userJson = jsonEncode(user.toJson());
     // String mobileUserDetailsJson = jsonEncode(mobileUserDetails.toJson());
     // preferences.setPreferences(Preferences.userKey, userJson);
@@ -82,10 +84,10 @@ class CheckInController {
 
   // To generate feedback notifications.
   feedbackNotification() async {
+    print('Feedback Notification Called');
     Preferences preferences = Preferences();
     DateTime tempDate = Common.convertStringToDateTime(preferences.getPreferences("check_out_date"));
-    DateTime checkOutDate = DateTime(tempDate.year, tempDate.month, tempDate.day, 20, 0, 0, 0, 0);
-
+    DateTime checkOutDate = DateTime(tempDate.year, tempDate.month, tempDate.day, 20, 0);
     LocalNotifyManager.localNotifyManager = LocalNotifyManager.init();
     LocalNotifyManager.localNotifyManager
         .setOnNotificationReceive(onNotificationReceive);
@@ -93,6 +95,7 @@ class CheckInController {
         .setOnNotificationClick(onNotificationClick);
     await LocalNotifyManager.localNotifyManager.scheduleNotification(
         checkOutDate, Random().nextInt(1000), 'Feedback', 'Please give us feedback', 'Feedback');
+    //await LocalNotifyManager.localNotifyManager.showNotification();
   }
 
   // Handles what to do on receiving notifications.

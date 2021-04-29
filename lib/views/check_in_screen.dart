@@ -11,6 +11,8 @@ import 'package:gev_app/utilities/preferences.dart';
 import 'package:gev_app/utilities/size_config.dart';
 import 'package:gev_app/views/view_check_in_screen.dart';
 
+import '../utilities/commons.dart';
+
 // Check In Screen For User where he has to enter check-in details to get the passcode or to access the facilities.
 
 class CheckInScreen extends StatefulWidget {
@@ -220,15 +222,27 @@ class _CheckInScreenState extends State<CheckInScreen> {
                       child: RaisedButton(
                         onPressed: () async {
                           if (_submit()) {
-                            await checkInController
-                                .saveUserAndMobileUserDetailsInPreferences(
-                                    userPhone, mobileUserDetails);
 
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ViewCheckInScreen()),
-                            );
+                           if(Common.compareDates(checkOutDate, DateTime.now()) || checkOutDate.isAfter(DateTime.now()))
+                            {
+                              await checkInController
+                                  .saveUserAndMobileUserDetailsInPreferences(
+                                  userPhone, mobileUserDetails);
+
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ViewCheckInScreen()),
+                              );
+                            }
+                           else{
+                             final snackBar = SnackBar(
+                               content:
+                               Text('Check-out date can\'t be less than today\'s date'),
+                             );
+                             ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                           }
+
                           }
                         },
                         child: Text(
